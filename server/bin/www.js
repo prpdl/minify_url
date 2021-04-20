@@ -1,0 +1,64 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+import app from '../app'
+import debugLib from 'debug'
+import http from 'http';
+import mongoose from 'mongoose'
+
+mongoose.set('useCreateIndex', true)
+
+const debug = debugLib('url-s:server');
+
+/**
+ * Get port from environment and store in Express.
+ */
+const url = 'mongodb://127.0.0.1:27017/url_s'
+const port = normalizePort(process.env.PORT || '3000');
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+mongoose.connect(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  server.listen(port, () => {
+    console.log('Running on Port:' + port)
+  })
+}).catch(error => {
+  console.log('Connection Error:', error)
+})
+
+const db = mongoose.connection
+
+db.once('open', _ => {
+  console.log('Database Connected:', url)
+})
+
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+

@@ -1,0 +1,1 @@
+1. regenerator Runtime Errro -> Fixed by core-js, regenerator-runtime package. (Reg. async/await in commonjs )
