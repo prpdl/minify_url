@@ -1,12 +1,12 @@
 import express from 'express';
-import {createUser} from '../controller/user'
+import {createUser, getUsers, testCase} from '../controller/user'
 const router = express.Router();
 
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/', getUsers)
+
+router.get('/:id', getUsers)
 
 router.post('/', createUser);
 

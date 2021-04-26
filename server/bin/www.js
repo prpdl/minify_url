@@ -24,11 +24,12 @@ const port = normalizePort(process.env.PORT || '3000');
 
 var server = http.createServer(app);
 
+console.log('Connecting to database...')
 mongoose.connect(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
-  server.listen(port, () => {
+  server.listen(process.env.PORT || port, () => {
     console.log('Running on Port:' + port)
   })
 }).catch(error => {
