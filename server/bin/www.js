@@ -1,26 +1,19 @@
-#!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
+import dotenv from 'dotenv'
 import app from '../app'
 import debugLib from 'debug'
 import http from 'http';
 import mongoose from 'mongoose'
 
+dotenv.config();
+
 mongoose.set('useCreateIndex', true)
 
 const debug = debugLib('url-s:server');
 
-/**
- * Get port from environment and store in Express.
- */
-const url = 'mongodb://127.0.0.1:27017/url_s'
+
+const url = process.env.DB_HOST
 const port = normalizePort(process.env.PORT || '3000');
 
-/**
- * Create HTTP server.
- */
 
 var server = http.createServer(app);
 
@@ -43,9 +36,6 @@ db.once('open', _ => {
 })
 
 
-/**
- * Normalize a port into a number, string, or false.
- */
 
 function normalizePort(val) {
   var port = parseInt(val, 10);

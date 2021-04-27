@@ -12,10 +12,10 @@ export const getUrl = async (req, res) => {
 
 export const postUrl = async (req, res) => {
     const fullUrl = req.body.fullUrl
-    const getUrl = await Url.findOne({full: fullUrl});
+    const url = await Url.findOne({full: fullUrl});
 
-    if(getUrl) {
-        return res.status(200).json({message: 'Already Exist', getUrl})
+    if(url) {
+        return res.status(200).json({message: 'Already Exist', url})
     }
     
     const newRecord = new Url({
@@ -33,8 +33,7 @@ export const postUrl = async (req, res) => {
 export const redirectUrl = async (req, res) => {
     const shortId = req.params.shortId
     const result = await Url.findOne({ short: shortId })
-    console.log(shortId)
-
+    
     if (!result) {
         return res.status(404).json({error: 'Unknown Link'})
     }
