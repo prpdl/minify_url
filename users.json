@@ -1,0 +1,74 @@
+{
+  "users": [
+    {
+      "name": "Alex",
+      "email": "prp.curious@gmail.com",
+      "phone": "0426267158",
+      "department": "HR",
+      "id": 2
+    },
+    {
+      "name": "Pradip",
+      "email": "prp.curious@gmail.com",
+      "phone": "0426267158",
+      "department": "HR",
+      "id": 3
+    },
+    {
+      "name": "Pradip",
+      "email": "prp.curious@gmail.com",
+      "phone": "0426267158",
+      "department": "HR",
+      "id": 4
+    },
+    {
+      "name": "Pradip",
+      "email": "prp.curious@gmail.com",
+      "phone": "0426267158",
+      "department": "HR",
+      "id": 5
+    },
+    {
+      "name": "Pradip",
+      "email": "prp.curious@gmail.com",
+      "phone": "0426267158",
+      "department": "HR",
+      "id": "e2793625-3d20-44bb-a414-7dab6ab880d4"
+    },
+    {
+      "name": "Pradip",
+      "email": "prp.curious@gmail.com",
+      "phone": "0426267158",
+      "department": "HR",
+      "id": "e30cb34b-3c88-41a4-b571-aa4606a1a161"
+    },
+    {
+      "name": "Pradip",
+      "email": "prp.curious@gmail.com",
+      "phone": "0426267158",
+      "department": "HR",
+      "id": "8b30391a-181c-4709-8055-70271f851f81"
+    },
+    {
+      "name": "Pradip",
+      "email": "prp.curious@gmail.com",
+      "phone": "0426267158",
+      "department": "HR",
+      "id": "0b2f7e8b-e0ee-4656-a165-d2428c7f11b1"
+    },
+    {
+      "name": "Pradip",
+      "email": "prp.curious@gmail.com",
+      "phone": "0426267158",
+      "department": "HR",
+      "id": "7fd0d965-a5a7-470c-b39d-929ae2f55aa5"
+    },
+    {
+      "name": "Pradip",
+      "email": "prp.curious@gmail.com",
+      "phone": "0426267158",
+      "department": "HR",
+      "id": "fad655b7-4a25-4246-be00-59dd35783679"
+    }
+  ]
+}

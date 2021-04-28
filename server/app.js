@@ -3,7 +3,6 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
-import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import urlRouter from './routes/url'
 
@@ -15,8 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/url', urlRouter);
+app.use('/api/users', usersRouter) // Writing Json File (First Task)
+app.use('/api/url', urlRouter);
 
 export default app;

@@ -1,13 +1,12 @@
-import express from 'express';
-import {createUser, getUsers, testCase} from '../controller/user'
+import express from 'express'
+import {validate, getUsers, addUser, deleteUser, updateUser} from '../controller/users.js'
+
 const router = express.Router();
 
-
-/* GET users listing. */
-router.get('/', getUsers)
-
-router.get('/:id', getUsers)
-
-router.post('/', createUser);
+router.get('/', getUsers);
+router.get('/:id', getUsers);
+router.post('/', validate('addUser'), addUser);
+router.patch('/:id', updateUser);
+router.delete('/:id', deleteUser);
 
 export default router;

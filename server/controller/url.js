@@ -1,4 +1,7 @@
 import Url from '../model/url'
+import 'core-js/features/promise'
+import 'regenerator-runtime/runtime'
+
 
 export const getUrl = async (req, res) => {
     Url.find({}, function(err, result) {
