@@ -2,7 +2,6 @@ import Url from '../model/url'
 import 'core-js/features/promise'
 import 'regenerator-runtime/runtime'
 
-
 export const getUrl = async (req, res) => {
     Url.find({}, function(err, result) {
         if(err) {
@@ -18,7 +17,7 @@ export const postUrl = async (req, res) => {
     const url = await Url.findOne({full: fullUrl});
 
     if(url) {
-        return res.status(200).json({message: 'Already Exist', url})
+        return res.status(409).send('Resource already exists.')
     }
     
     const newRecord = new Url({

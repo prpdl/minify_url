@@ -4,6 +4,8 @@ import debugLib from 'debug'
 import http from 'http';
 import mongoose from 'mongoose'
 
+import portCheck from './portCheck';
+
 dotenv.config();
 
 mongoose.set('useCreateIndex', true)
@@ -34,8 +36,6 @@ const db = mongoose.connection
 db.once('open', _ => {
   console.log('Database Connected:', url)
 })
-
-
 
 function normalizePort(val) {
   var port = parseInt(val, 10);

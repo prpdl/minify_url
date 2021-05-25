@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import shortId from 'shortid';
 
 
+
 const urlSchema = new mongoose.Schema({
     full: {
         type: String,
