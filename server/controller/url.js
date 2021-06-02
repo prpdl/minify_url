@@ -17,7 +17,7 @@ export const postUrl = async (req, res) => {
     const url = await Url.findOne({full: fullUrl});
 
     if(url) {
-        return res.status(409).send('Resource already exists.')
+        return res.status(200).json({message : 'Already Exist', url})
     }
     
     const newRecord = new Url({
