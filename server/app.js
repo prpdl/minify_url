@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, '../public')));
 
-app.use('/api/users', usersRouter) // Writing Json File (First Task)
+app.use('/api/user', usersRouter) // Writing Json File (First Task)
 app.use('/api/url', urlRouter);
 
 export default app;
