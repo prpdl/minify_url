@@ -5,11 +5,13 @@ import User from '../model/user'
 
 import validateRegisterInput from '../validation/register';
 import validateLoginInput from '../validation/login';
-import { token } from "morgan";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const addUser = async (req, res) => {
     const { errors, isValid } = validateRegisterInput(req.body);
-
+   
     if (!isValid) {
         return res.status(400).json(errors);
     }
@@ -26,10 +28,12 @@ export const addUser = async (req, res) => {
 
             //Hash Password
             bcrypt.genSalt(10, (err, salt) => {
+                if(err) throw err
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
+                    if(err) throw err
                     newUser.password = hash;
                     newUser.save()
-                        .then(user => res.json(user))
+                        .then(user => res.redirect(307, '/api/user/login'))
                         .catch(err => console.log(err))
                 })
             })
@@ -41,51 +45,61 @@ export const loginUser = async (req, res) => {
     const { errors, isValid } = validateLoginInput(req.body)
 
     if (!isValid) {
-        return res.status(400).json(errors);
+        return res.status(403).json(errors);
     }
 
     const email = req.body.email;
     const password = req.body.password;
-    const user = User.findOne({email})
-        User.findOne({ email }).then(user => {
+        await User.findOne({ email: email }).then(user => {
             if (!user) {
                 return res.status(404).json({ emailNotFound: 'Email Not Found' })
             }
-        });
+
+            bcrypt.compare(password, user.password).then(isMatch => {
+                if (isMatch) {
+                    //User Matched and need to create a JWT payload
+    
+                    const payload = {
+                        id: user._id,
+                        email: user.email
+                    };
+    
+                    //Sign the token
+                    jwt.sign(
+                        payload,
+                        process.env.TOKEN_SECRET,
+                        {
+                            expiresIn: 3600
+                        },
+                        (err, token) => {
+                            if(err) throw err;
+                            res.cookie('token', token, {httpOnly: true})
+                            res.json({
+                                sucess: true,
+                                token: "Bearer " + token,
+                                user: {
+                                    id: user._id,
+                                    name: user.name,
+                                    email: user.email,
+                                }
+                            })
+                        }
+                    )    
+                } else {
+                    return res.status(401).json({ password: 'Incorrect Password' })
+                }
+            }).catch(err=> {
+                res.status(500).json({error: 'server not responded with an error'})
+            })
+
+        }).catch(err => {
+            res.status(500).json({err: 'Server responded with an error'})
+            console.log(err)
+        })
 
         //Checking For Password
 
-        bcrypt.compare(password, user.password).then(isMatch => {
-            if (isMatch) {
-                //User Matched and need to create a JWT payload
-
-                const payload = {
-                    id: user._id,
-                    name: user.name
-                };
-
-                console.log('hear')
-
-                //Sign the token
-
-                jwt.sign(
-                    payload,
-                    keys.secret,
-                    {
-                        expiresIn: 604800
-                    },
-                    (err, tokern) => {
-                        res.json({
-                            sucess: true,
-                            token: "Bearer " + token
-                        })
-                    }
-                )
-
-            } else {
-                return res.status(400).json({ password: 'Incorrect Password' })
-            }
-        })
+       
 }
 
 // import fs from 'fs'
