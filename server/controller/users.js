@@ -46,46 +46,44 @@ export const loginUser = async (req, res) => {
 
     const email = req.body.email;
     const password = req.body.password;
-    const user = User.findOne({email})
-        User.findOne({ email }).then(user => {
-            if (!user) {
-                return res.status(404).json({ emailNotFound: 'Email Not Found' })
-            }
-        });
-
+    const user = User.findOne({email: email}, (err, user) => {
+        if(!err) {
+            bcrypt.compare(password, user.password).then(isMatch => {
+                if (isMatch) {
+                    //User Matched and need to create a JWT payload
+    
+                    const payload = {
+                        id: user._id,
+                        name: user.name
+                    };
+    
+                    //Sign the token
+    
+                    jwt.sign(
+                        payload,
+                        keys.secret,
+                        {
+                            expiresIn: 604800
+                        },
+                        (err, token) => {
+                            res.json({
+                                sucess: true,
+                                token: "Bearer " + token
+                            })
+                        }
+                    )
+    
+                } else {
+                    return res.status(400).json({ password: 'Incorrect Password' })
+                }
+            })
+        }else{
+            console.log(err)
+        }
+    }) 
         //Checking For Password
 
-        bcrypt.compare(password, user.password).then(isMatch => {
-            if (isMatch) {
-                //User Matched and need to create a JWT payload
-
-                const payload = {
-                    id: user._id,
-                    name: user.name
-                };
-
-                console.log('hear')
-
-                //Sign the token
-
-                jwt.sign(
-                    payload,
-                    keys.secret,
-                    {
-                        expiresIn: 604800
-                    },
-                    (err, tokern) => {
-                        res.json({
-                            sucess: true,
-                            token: "Bearer " + token
-                        })
-                    }
-                )
-
-            } else {
-                return res.status(400).json({ password: 'Incorrect Password' })
-            }
-        })
+        
 }
 
 // import fs from 'fs'
@@ -256,4 +254,3 @@ export const loginUser = async (req, res) => {
 //         })
 //     }
 // }
-
