@@ -50,56 +50,44 @@ export const loginUser = async (req, res) => {
 
     const email = req.body.email;
     const password = req.body.password;
-        await User.findOne({ email: email }).then(user => {
-            if (!user) {
-                return res.status(404).json({ emailNotFound: 'Email Not Found' })
-            }
-
+    const user = User.findOne({email: email}, (err, user) => {
+        if(!err) {
             bcrypt.compare(password, user.password).then(isMatch => {
                 if (isMatch) {
                     //User Matched and need to create a JWT payload
     
                     const payload = {
                         id: user._id,
-                        email: user.email
+                        name: user.name
                     };
     
                     //Sign the token
+    
                     jwt.sign(
                         payload,
-                        process.env.TOKEN_SECRET,
+                        keys.secret,
                         {
-                            expiresIn: 3600
+                            expiresIn: 604800
                         },
                         (err, token) => {
-                            if(err) throw err;
-                            res.cookie('token', token, {httpOnly: true})
                             res.json({
                                 sucess: true,
-                                token: "Bearer " + token,
-                                user: {
-                                    id: user._id,
-                                    name: user.name,
-                                    email: user.email,
-                                }
+                                token: "Bearer " + token
                             })
                         }
-                    )    
+                    )
+    
                 } else {
-                    return res.status(401).json({ password: 'Incorrect Password' })
+                    return res.status(400).json({ password: 'Incorrect Password' })
                 }
-            }).catch(err=> {
-                res.status(500).json({error: 'server not responded with an error'})
             })
-
-        }).catch(err => {
-            res.status(500).json({err: 'Server responded with an error'})
+        }else{
             console.log(err)
-        })
-
+        }
+    }) 
         //Checking For Password
 
-       
+        
 }
 
 // import fs from 'fs'
@@ -270,4 +258,3 @@ export const loginUser = async (req, res) => {
 //         })
 //     }
 // }
-
