@@ -18,12 +18,22 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, '../public')));
 
+app.get('/', (req, res) => {
+    return res.send('Welcome to URL Shorning API')
+})
+
+app.get('/verifyToken', ((req, res) => {
+    jwt.verify(req.cookies.token, process.env.TOKEN_SECRET, (err)=> {
+        if(err){
+            res.status(401).json({sucess: false});
+        }else{
+            res.status(200).json({sucess: true});
+        }
+    })
+}));
 app.use('/api/user', usersRouter) // Writing Json File (First Task)
 app.use('/api/url', verifyToken, urlRouter);
 
-app.get('/api/products', verifyToken, (req, res) => {
-    res.status(200).json({itemName: 'Laptops', itemCode: 21})
-})
 
 function verifyToken(req, res, next) {
     const bearerHeader = req.headers['authorization'];
@@ -33,7 +43,7 @@ function verifyToken(req, res, next) {
         return res.sendStatus(401)
     }
         // const token = cookieToken.split(' ')[1];
-        jwt.verify(cookieToken, process.env.TOKEN_SECRET, (err, varifiedToken) => {
+        jwt.verify(cookieToken, process.env.TOKEN_SECRET, (err) => {
             if(err) {
                 res.status(403).json(err.message)
             }else{

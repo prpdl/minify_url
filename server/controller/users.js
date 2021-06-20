@@ -10,6 +10,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const addUser = async (req, res) => {
+    console.log(req.body)
     const { errors, isValid } = validateRegisterInput(req.body);
    
     if (!isValid) {
@@ -72,7 +73,7 @@ export const loginUser = async (req, res) => {
                             expiresIn: 3600
                         },
                         (err, token) => {
-                            if(err) throw err;
+                            if(err) console.log(err)
                             res.cookie('token', token, {httpOnly: true})
                             res.json({
                                 sucess: true,
@@ -100,6 +101,16 @@ export const loginUser = async (req, res) => {
         //Checking For Password
 
        
+}
+
+export const logoutUser = async (req, res) => {
+    const options = {
+        expires: new Date(Date.now() + 1000),
+        secure: true,
+        httpOnly: true
+    }
+    res.cookie('token', 'expiredToken', options)
+    res.status(200).json({status: 'Sucess'});
 }
 
 // import fs from 'fs'

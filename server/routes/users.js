@@ -1,6 +1,6 @@
 import express from 'express'
 
-import {addUser, loginUser} from '../controller/users'
+import {addUser, loginUser, logoutUser} from '../controller/users'
 
 // router.get('/', getUsers);
 // router.get('/:id', getUsers);
@@ -13,5 +13,6 @@ const router = express.Router();
 
 router.post('/login', loginUser)
 router.post('/register', addUser)
+router.get('/logout', logoutUser)
 
 export default router;
