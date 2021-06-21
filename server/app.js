@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/verifyToken', ((req, res) => {
-    jwt.verify(req.cookies.token, process.env.TOKEN_SECRET, (err)=> {
+    jwt.verify(req.cookies.token, process.env.SECRET_TOKEN, (err)=> {
         if(err){
             res.status(401).json({sucess: false});
         }else{
@@ -43,7 +43,7 @@ function verifyToken(req, res, next) {
         return res.sendStatus(401)
     }
         // const token = cookieToken.split(' ')[1];
-        jwt.verify(cookieToken, process.env.TOKEN_SECRET, (err) => {
+        jwt.verify(cookieToken, process.env.SECRET_TOKEN, (err) => {
             if(err) {
                 res.status(403).json(err.message)
             }else{

@@ -66,7 +66,7 @@ export const loginUser = async (req, res) => {
     
                     jwt.sign(
                         payload,
-                        keys.secret,
+                        process.env.SECRET_TOKEN,
                         {
                             expiresIn: 604800
                         },
