@@ -43,7 +43,7 @@ export const addUser = async (req, res) => {
 }
 
 export const loginUser = async (req, res) => {
-    const { errors, isValid } = validateLoginInput(req.body)
+    const { errors, isValid } = validateLoginInput(req.body);
 
     if (!isValid) {
         return res.status(403).json(errors);
@@ -87,10 +87,7 @@ export const loginUser = async (req, res) => {
         }else{
             console.log(err)
         }
-    }) 
-        //Checking For Password
-
-        
+    })         
 }
 
 export const logoutUser = async (req, res) => {
